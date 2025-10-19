@@ -1,8 +1,8 @@
 {
-  "name": "pern-stack",
+  "name": "e-retro-back",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Api for auth and tasks",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
