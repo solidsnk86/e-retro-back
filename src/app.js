@@ -1,5 +1,5 @@
 import express from "express";
-import { tareasRouter } from "./routes/tareas.route.js";
+import { tasksRouter } from "./routes/tasks.route.js";
 import { authRouter } from "./routes/auth.route.js";
 import cookieParser from "cookie-parser"
 import cors from "cors"
@@ -16,7 +16,7 @@ export const createApp = () => {
     app.use(express.urlencoded({ extended: false, limit: "10mb" }));
     app.disable("x-powered-by");
 
-    app.use("/api", tareasRouter);
+    app.use("/api", tasksRouter);
     app.use("/api", authRouter);
 
     const PORT = process.env.PORT ?? 3000;

@@ -1,13 +1,13 @@
 import { CREATE_TASK, DELETE_TASK, GET_ALL_TASKS, GET_TASK_BY_ID, GET_TASK_BY_TITLE, UPDATE_TASK } from "./constants.js";
 
-class ControladorTareas {
+class TasksController {
   constructor({ taskDb }) {
     this.taskDb = taskDb;
   }
 
-  obtenerLaPrimeraFila = (result) => result?.rows?.[0] || result[0]
+  getFirstRow = (result) => result?.rows?.[0] || result[0]
 
-  obtenerTodasLasTareas = async (req, res) => {
+  getAllTasks = async (req, res) => {
     try {
       const id = req.userId
       const result = await this.taskDb.query(GET_ALL_TASKS, [id]);
@@ -21,11 +21,11 @@ class ControladorTareas {
     }
   }
 
-  obtenerTareaPorId = async (req, res) => {
+  getTaskById = async (req, res) => {
     try {
       const id = req.params.id;
       const result = await this.taskDb.query(GET_TASK_BY_ID, [id]);
-      const task = this.obtenerLaPrimeraFila(result)
+      const task = this.getFirstRow(result)
 
       if (!task) return res.status(404).json({ info: "No se encontró la tarea con el siguiente ID: " + id });
 
@@ -35,49 +35,49 @@ class ControladorTareas {
     }
   }
 
-   crearTarea = async (req, res) => {
+   createTask = async (req, res) => {
     try {
       const { titulo, descripcion } = req.body;
 
       if (!titulo || !descripcion) return res.status(400).json({ message: "Campos vacíos" })
 
       const id = req.userId
-      const tareaExistente = await this.taskDb.query(GET_TASK_BY_TITLE, [titulo, id])
+      const existingTask = await this.taskDb.query(GET_TASK_BY_TITLE, [titulo, id])
       
-      if (tareaExistente.length !== 0) return res.status(409).json({ message: "La tarea con ese título ya existe" })
+      if (existingTask.length !== 0) return res.status(409).json({ message: "La tarea con ese título ya existe" })
 
       const result = await this.taskDb.query(CREATE_TASK, [titulo, descripcion, id]);
-      const tareaCreada = this.obtenerLaPrimeraFila(result)
+      const createdTask = this.getFirstRow(result)
 
-      res.status(200).json({ success: "Tarea creada", tarea: tareaCreada });
+      res.status(200).json({ success: "Tarea creada", tarea: createdTask });
     } catch (error) {
       res.status(500).json({ message: "Error al obtener las tareas: " + error.message, info: "Compruebe si la DB está conectada" });
     }
   }
 
-   actualizarTarea = async (req, res) => {
+   updateTask = async (req, res) => {
     try {
-      const tarea = {
+      const task = {
         id: req.params.id,
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
       };
       const result = await this.taskDb.query(UPDATE_TASK, [
-        tarea.id,
-        tarea.titulo,
-        tarea.descripcion,
+        task.id,
+        task.titulo,
+        task.descripcion,
         true,
         new Date().toISOString()
       ]);
-      const tareaActualizada = this.obtenerLaPrimeraFila(result)
+      const updatedTask = this.getFirstRow(result)
 
-      if (!tareaActualizada) {
-        return res.status(404).json({ message: "No se encontró la tarea con ID: " + tarea.id });
+      if (!updatedTask) {
+        return res.status(404).json({ message: "No se encontró la tarea con ID: " + task.id });
       }
 
       res.status(200).json({
         success: "Se ha actualizado la tarea con éxito!",
-        tarea: tareaActualizada,
+        tarea: updatedTask,
       });
     } catch (error) {
       res.status(500).json({
@@ -86,18 +86,18 @@ class ControladorTareas {
     }
   }
 
-  eliminarTarea = async (req, res) => {
+  deleteTask = async (req, res) => {
     try {
       const taskId = req.params.id;
       const userId = req.userId
       const result = await this.taskDb.query(DELETE_TASK, [taskId, userId]);
-      const tareaEliminada = this.obtenerLaPrimeraFila(result)
+      const deletedTask = this.getFirstRow(result)
 
-      if (!tareaEliminada) return res.status(404).json({ message: "No se encontró la tarea con el ID: " + id });
+      if (!deletedTask) return res.status(404).json({ message: "No se encontró la tarea con el ID: " + taskId });
       
       res.status(200).json({
         success: "Se ha eliminado la tarea con éxito!",
-        tarea: tareaEliminada,
+        tarea: deletedTask,
       });
     } catch (error) {
       res.status(500).json({ message: "Error al borrar tarea: " + error.message });
@@ -105,4 +105,4 @@ class ControladorTareas {
   }
 }
 
-export { ControladorTareas };
+export { TasksController };

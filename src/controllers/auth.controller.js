@@ -10,17 +10,16 @@ import {
 import { createAccessToken } from "../lib/jwt.js";
 import md5 from "md5"
 
-export class ControladorUsuarios {
-  expiracionCookie = 60 * 60 * 24 * 1000; // 24 horas
+export class UserController {
+  cookieExpiration = 60 * 60 * 24 * 1000;
 
   constructor({ authDb }) {
     this.authDb = authDb;
   }
 
-  // Helper para obtener la primera fila del resultado
-  obtenerPrimeraFila = (result) => result?.rows?.[0] || result[0];
+  getFirstRow = (result) => result?.rows?.[0] || result[0];
 
-  obtenerTodosLosUsuarios = async (req, res) => {
+  getAllUsers = async (req, res) => {
     try {
       const result = await this.authDb.query(GET_ALL_USERS);
       const users = result?.rows || result;
@@ -32,11 +31,11 @@ export class ControladorUsuarios {
     }
   };
 
-  obtenerUsuarioPorId = async (req, res) => {
+  getUserById = async (req, res) => {
     try {
       const { id } = req.params;
       const result = await this.authDb.query(GET_USER_BY_ID, [id]);
-      const user = this.obtenerPrimeraFila(result);
+      const user = this.getFirstRow(result);
 
       if (!user)
         return res.status(404).json({ message: "Usuario inexistente", id });
@@ -49,7 +48,7 @@ export class ControladorUsuarios {
     }
   };
 
-  ingresoUsuario = async (req, res) => {
+  userLogin = async (req, res) => {
     try {
       const { email, password } = req.body;
 
@@ -57,7 +56,7 @@ export class ControladorUsuarios {
         return res.status(400).json({ message: "Campos vacíos" });
 
       const userExist = await this.authDb.query(GET_USER_BY_EMAIL, [email]);
-      const user = this.obtenerPrimeraFila(userExist);
+      const user = this.getFirstRow(userExist);
 
       if (!user)
         return res
@@ -74,7 +73,7 @@ export class ControladorUsuarios {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",
-        maxAge: this.expiracionCookie,
+        maxAge: this.cookieExpiration,
       });
 
       return res
@@ -87,19 +86,19 @@ export class ControladorUsuarios {
     }
   };
 
-  salidaUsuario = async (req, res) => {
+  userLogout = async (req, res) => {
     try {
       const id = req.userId;
       const result = await this.authDb.query(GET_USER_BY_ID, [id])
-      const usuario = this.obtenerPrimeraFila(result)
+      const user = this.getFirstRow(result)
       res.clearCookie("token");
-      return res.status(200).json({ message: "Sesión cerrada correctamente", user: usuario });
+      return res.status(200).json({ message: "Sesión cerrada correctamente", user: user });
     } catch (error) {
       return res.status(500).json({ message: "Error en logout: " + error.message });
     }
   };
 
-  crearUsuario = async (req, res) => {
+  createUser = async (req, res) => {
     try {
       const { name, email, password } = req.body;
 
@@ -107,7 +106,7 @@ export class ControladorUsuarios {
         return res.status(400).json({ message: "Campos vacíos" });
 
       const userExist = await this.authDb.query(GET_USER_BY_EMAIL, [email]);
-      const userFound = this.obtenerPrimeraFila(userExist);
+      const userFound = this.getFirstRow(userExist);
 
       if (userFound)
         return res
@@ -124,14 +123,14 @@ export class ControladorUsuarios {
         gravatar
       ]);
 
-      const newUser = this.obtenerPrimeraFila(result);
+      const newUser = this.getFirstRow(result);
       const token = await createAccessToken({ id: newUser.user_id });
 
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",
-        maxAge: this.expiracionCookie,
+        maxAge: this.cookieExpiration,
       });
 
       return res
@@ -147,7 +146,7 @@ export class ControladorUsuarios {
     }
   };
 
-  actualizarUsuario = async (req, res) => {
+  updateUser = async (req, res) => {
     try {
       const id = req.userId
       const { name, email, avatar } = req.body;
@@ -156,7 +155,7 @@ export class ControladorUsuarios {
         return res.status(400).json({ message: "Campos vacíos" });
       const result = await this.authDb.query(GET_USER_BY_ID, [id]);
 
-      const user = this.obtenerPrimeraFila(result);
+      const user = this.getFirstRow(result);
 
       if (!user)
         return res.status(404).json({ message: "Usuario no encontrado" });
@@ -171,7 +170,7 @@ export class ControladorUsuarios {
         avatar
       ]);
 
-      const updatedUser = this.obtenerPrimeraFila(updated);
+      const updatedUser = this.getFirstRow(updated);
 
       return res
         .status(200)
@@ -183,18 +182,18 @@ export class ControladorUsuarios {
     }
   };
 
-  eliminarUsuario = async (req, res) => {
+  deleteUser = async (req, res) => {
     try {
       const id = req.userId
       const result = await this.authDb.query(DELETE_USER, [id]);
-      const eliminado = this.obtenerPrimeraFila(result);
+      const deleted = this.getFirstRow(result);
 
-      if (!eliminado) {
+      if (!deleted) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
       res.clearCookie()
-      return res.status(200).json({ message: "Usuario eliminado", user: eliminado });
+      return res.status(200).json({ message: "Usuario eliminado", user: deleted });
     } catch (error) {
       return res
         .status(500)
@@ -202,11 +201,11 @@ export class ControladorUsuarios {
     }
   };
 
-  perfilUsuario = async (req, res) => {
+  userProfile = async (req, res) => {
     try {
       const { userId } = req;
       const result = await this.authDb.query(GET_USER_BY_ID, [userId]);
-      const user = this.obtenerPrimeraFila(result);
+      const user = this.getFirstRow(result);
 
       if (!user)
         return res.status(404).json({ message: "Usuario inexistente" });

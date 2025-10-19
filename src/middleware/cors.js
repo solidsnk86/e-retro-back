@@ -17,7 +17,7 @@ export const corsMiddleware = ({
       //   return callback(null, true);
       // }
 
-      return callback(new Error("No está permitido por CORS"));
+      return callback(new Error("Not allowed by CORS"));
     },
   });
 };
