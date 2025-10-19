@@ -11,9 +11,9 @@ const userController = new UserController({ authDb: serverNeonDB }); // <- We in
 
 authRouter.get("/users", userController.getAllUsers)
 authRouter.get("/user/:id", userController.getUserById)
-authRouter.post("/signin", userController.userLogin);
+authRouter.post("/login", userController.userLogin);
 authRouter.post("/signup", userController.createUser);
 authRouter.put("/update/user", isAuth, userController.updateUser)
 authRouter.delete("/delete/user/:id", isAuth, userController.deleteUser)
-authRouter.get("/signout", isAuth, userController.userLogout)
+authRouter.get("/logout", isAuth, userController.userLogout)
 authRouter.get("/profile", isAuth, userController.userProfile)

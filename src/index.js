@@ -28,3 +28,5 @@ export const createApp = () => {
     console.log(error.message);
   }
 };
+
+createApp()

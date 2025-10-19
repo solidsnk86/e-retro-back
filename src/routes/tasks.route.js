@@ -7,8 +7,8 @@ import { serverNeonDB } from "../../neon/neonDbConfig.js";
 export const tasksRouter = Router();
 const tasksController = new TasksController({ taskDb: serverNeonDB });
 
-tasksRouter.get("/tareas", isAuth, tasksController.getAllTasks);
-tasksRouter.get("/tarea/:id", isAuth, tasksController.getTaskById);
-tasksRouter.post("/tarea", isAuth, tasksController.createTask);
-tasksRouter.put("/actualizar/tarea/:id", isAuth, tasksController.updateTask);
-tasksRouter.delete("/eliminar/tarea/:id", isAuth, tasksController.deleteTask);
+tasksRouter.get("/tasks", isAuth, tasksController.getAllTasks);
+tasksRouter.get("/task/:id", isAuth, tasksController.getTaskById);
+tasksRouter.post("/task", isAuth, tasksController.createTask);
+tasksRouter.put("/update/task/:id", isAuth, tasksController.updateTask);
+tasksRouter.delete("/delete/task/:id", isAuth, tasksController.deleteTask);
