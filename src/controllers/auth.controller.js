@@ -6,6 +6,7 @@ import {
   GET_USER_BY_EMAIL,
   GET_USER_BY_ID,
   UPDATE_USER,
+  UPDATE_USER_PASSWORD,
 } from "./constants.js";
 import { createAccessToken } from "../lib/jwt.js";
 import md5 from "md5"
@@ -181,6 +182,27 @@ export class UserController {
         .json({ message: "Error al actualizar usuario: " + error.message });
     }
   };
+
+  updatePassword = async (req, res) => {
+    try {
+      const id = req.userId
+      const { password, newPassword } = req.body
+      const result = await this.authDb.query(GET_USER_BY_ID, [id])
+      const user = this.getFirstRow(result)
+
+      const validatedPassword = await compare(password, user.user_password)
+
+      if (!validatedPassword) {
+        res.status(400).json({ message: "La contraseña es incorrecta" })
+      }
+
+      await this.authDb.query(UPDATE_USER_PASSWORD, [newPassword])
+      res.status(400).json({ message: "Contraseña actualizada" })
+      
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar la contraseña: " + error.message  })
+    }
+  }
 
   deleteUser = async (req, res) => {
     try {
