@@ -4,7 +4,9 @@ import { authRouter } from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-process.loadEnvFile(".env");
+if (process.env.NODE_ENV !== "production") {
+  process.loadEnvFile(".env");
+}
 
 const app = express();
 

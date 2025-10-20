@@ -2,7 +2,10 @@ import jwt from "jsonwebtoken";
 import path from "path";
 
 export const createAccessToken = (payload) => {
-  process.loadEnvFile(path.join(process.cwd(), ".env"));
+  if (process.env.NODE_ENV !== "production") {
+    process.loadEnvFile(path.join(process.cwd(), ".env"));
+  }
+
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,

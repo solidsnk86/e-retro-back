@@ -1,6 +1,8 @@
 import { Pool } from "pg";
 
-process.loadEnvFile(".env");
+if (process.env.NODE_ENV !== "production") {
+  process.loadEnvFile(".env");
+}
 
 export const pgLocalDB = new Pool({
   database: "pern",
