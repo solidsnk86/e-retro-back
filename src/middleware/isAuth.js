@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 
-process.loadEnvFile(".env");
+if (!process.env.NODE_ENV === "production") {
+  process.loadEnvFile(".env");
+}
 
 export const isAuth = (req, res, next) => {
   try {
