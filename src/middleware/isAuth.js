@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-if (!process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "production") {
   process.loadEnvFile(".env");
 }
 
