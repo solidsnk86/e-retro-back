@@ -1,7 +1,9 @@
 import { neon } from "@neondatabase/serverless";
 import path from "path";
 
-process.loadEnvFile(path.join(process.cwd(), "/.env"));
+if (!process.env.NODE_ENV === "production") {
+  process.loadEnvFile(path.join(process.cwd(), "/.env"));
+}
 const { PGUSER, PGPASSWORD, PGHOST, PGDATABASE } = process.env;
 
 export const serverNeonDB = neon(
