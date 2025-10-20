@@ -6,6 +6,5 @@ if (process.env.NODE_ENV !== "production") {
 }
 const { PGUSER, PGPASSWORD, PGHOST, PGDATABASE } = process.env;
 
-export const serverNeonDB = neon(
-  `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require&channel_binding=require`
-);
+const URL = `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require&channel_binding=require`
+export const serverNeonDB = neon(process.env.NEON_DB_2);
