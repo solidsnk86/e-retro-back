@@ -112,7 +112,7 @@ export class UserController {
 
       if (userFound) {
         res.status(409).json({ message: `El correo ${email} ya está registrado.` });
-          return;
+        return;
       }
 
       const hashedPassword = await hash(password, 10);
