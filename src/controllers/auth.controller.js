@@ -139,11 +139,8 @@ export class UserController {
 
       return res
         .status(201)
-        .json({ message: `Se ha enviado un correo a ${user_email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.` });
+        .json({ message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.` });
     } catch (error) {
-      if (error.code === "23505") {
-        return res.status(409).json({ message: "El correo ya está registrado." });
-      }
       return res
         .status(500)
         .json({ message: "Error al crear usuario: " + error.message });
