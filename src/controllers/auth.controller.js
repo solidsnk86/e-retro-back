@@ -110,10 +110,11 @@ export class UserController {
       const userExist = await this.authDb.query(GET_USER_BY_EMAIL, [email]);
       const userFound = this.getFirstRow(userExist);
 
-      if (userFound)
+      if (userFound) {
         return res
           .status(409)
           .json({ message: `El correo ${email} ya está registrado.` });
+      }
 
       const hashedPassword = await hash(password, 10);
       const gravatar = `https://gravatar.com/avatar/${md5(email)}`
