@@ -134,8 +134,12 @@ export class UserController {
         secure: process.env.NODE_ENV === "production",
         maxAge: this.cookieExpiration,
       });
-      const emailController = new EmailController(name, email)
-      const info = emailController.sendMail()
+      
+      const emailController = new EmailController(name, email);
+        emailController
+      .sendMail()
+      .then(info => console.log("Correo enviado:", info.messageId))
+      .catch(err => console.error("Error al enviar el correo:", err.message));
 
       return res
         .status(201)
