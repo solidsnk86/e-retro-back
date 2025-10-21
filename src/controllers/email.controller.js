@@ -7,6 +7,11 @@ export class EmailController {
 
   sendMail = async (req, res) => {
     const { user } = req.body;
+
+    if (!user) {
+        return res.status(400).json({ message: "Faltan los datos del usaurio" })
+    }
+
     const transporter = this.transporter.createTransport({
       service: "gmail",
       auth: {
@@ -28,5 +33,7 @@ export class EmailController {
       subject: "Bienvenido a doubleCommit taskApp 🚀",
       html,
     });
+
+    res.status(200).json({ message: "Se ha enviado un cooreo a " + user.email + ", revise su casilla de correos 'No deseados' o 'Spam'." })
   };
 }
