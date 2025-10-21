@@ -143,7 +143,7 @@ export class UserController {
 
       return res
         .status(201)
-        .json({ message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`, info });
+        .json({ message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.` });
     } catch (error) {
       return res
         .status(500)
