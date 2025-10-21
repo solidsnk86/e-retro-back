@@ -111,9 +111,8 @@ export class UserController {
       const userFound = this.getFirstRow(userExist);
 
       if (userFound) {
-        return res
-          .status(409)
-          .json({ message: `El correo ${email} ya está registrado.` });
+        res.status(409).json({ message: `El correo ${email} ya está registrado.` });
+          return;
       }
 
       const hashedPassword = await hash(password, 10);
