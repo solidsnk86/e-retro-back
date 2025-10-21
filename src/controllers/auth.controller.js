@@ -135,11 +135,11 @@ export class UserController {
         maxAge: this.cookieExpiration,
       });
       const emailController = new EmailController(name, email)
-      emailController.sendMail()
+      const info = emailController.sendMail()
 
       return res
         .status(201)
-        .json({ message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.` });
+        .json({ message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`, info });
     } catch (error) {
       return res
         .status(500)
