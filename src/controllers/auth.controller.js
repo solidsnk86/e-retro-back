@@ -10,6 +10,7 @@ import {
 } from "./constants.js";
 import { createAccessToken } from "../lib/jwt.js";
 import md5 from "md5"
+import { EmailController } from "./email.controller.js";
 
 export class UserController {
   cookieExpiration = 60 * 60 * 24 * 1000;
@@ -133,10 +134,12 @@ export class UserController {
         secure: process.env.NODE_ENV === "production",
         maxAge: this.cookieExpiration,
       });
+      const emailController = new EmailController(name, email)
+      emailController.sendMail()
 
       return res
         .status(201)
-        .json({ message: "Usuario creado correctamente", user: newUser });
+        .json({ message: `Se ha enviado un correo a ${user_email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.` });
     } catch (error) {
       if (error.code === "23505") {
         return res.status(409).json({ message: "El correo ya está registrado." });

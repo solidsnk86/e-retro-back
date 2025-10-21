@@ -1,39 +1,36 @@
-import { readFileSync } from "fs";
+import nodemailer from "nodemailer";
+import { emailTemplate } from "../templates/emailTemplate.js";
 
 export class EmailController {
-  contructor({ transporter }) {
-    this.transporter = transporter;
-  }
-
-  sendMail = async (req, res) => {
-    const { user } = req.body;
-
-    if (!user) {
-        return res.status(400).json({ message: "Faltan los datos del usaurio" })
+    constructor(userName, userEmail) {
+        this.userName = userName
+        this.userEmail = userEmail
     }
+  sendMail = async () => {
+    try {
+      if (!this.userEmail || !this.userEmail)
+        throw new Error("Faltan los parámetros del usuario");
 
-    const transporter = this.transporter.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-    const html = readFileSync("/src/templates/email_template.html", "utf-8");
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+      const html = emailTemplate({
+        userName: this.userName,
+        url: "https://task-app-double-commit.vercel.app/login",
+      });
 
-    template.replace("{{username}}", user.name);
-    template.replace(
-      "{{loginUrl}}",
-      "https://task-app-double-commit.vercel.app/login"
-    );
-
-    transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Bienvenido a doubleCommit taskApp 🚀",
-      html,
-    });
-
-    res.status(200).json({ message: "Se ha enviado un cooreo a " + user.email + ", revise su casilla de correos 'No deseados' o 'Spam'." })
+      transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: this.userEmail,
+        subject: "Bienvenido a doubleCommit taskApp 🚀",
+        html,
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 }

@@ -1,9 +1,0 @@
-import { Router } from "express";
-import { EmailController } from "../controllers/email.controller.js";
-import nodemailer from "nodemailer"
-import { isAuth } from "../middleware/isAuth.js";
-
-export const mailerRoute = Router()
-const emailController = new EmailController({ trasnporter: nodemailer })
-
-mailerRoute.post("/email-sender", isAuth, emailController.sendMail)

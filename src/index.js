@@ -3,7 +3,6 @@ import { tasksRouter } from "./routes/tasks.route.js";
 import { authRouter } from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { mailerRoute } from "./routes/mailer.route.js";
 
 if (process.env.NODE_ENV !== "production") {
   process.loadEnvFile(".env");
@@ -19,7 +18,6 @@ app.disable("x-powered-by");
 
 app.use("/api", tasksRouter);
 app.use("/api", authRouter);
-app.use("/api", mailerRoute)
 
 export default app;
 
