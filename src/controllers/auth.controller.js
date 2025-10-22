@@ -210,7 +210,7 @@ export class UserController {
 
       const hashedPassword = await hash(newPassword, 10);
       await this.authDb.query(UPDATE_USER_PASSWORD, [id, hashedPassword, true]);
-      res.status(400).json({ message: "Contraseña actualizada" });
+      res.status(200).json({ message: "Contraseña actualizada" });
     } catch (error) {
       res.status(500).json({
         message: "Error al actualizar la contraseña: " + error.message,
