@@ -200,7 +200,7 @@ export class UserController {
       const validatedPassword = await compare(password, user.user_password);
 
       if (!validatedPassword) {
-        res.status(400).json({ message: "La contraseña es incorrecta" });
+        res.status(400).json({ message: "La contraseña actual es incorrecta." });
       }
 
       const hashedPassword = await hash(newPassword, 10);
