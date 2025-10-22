@@ -145,8 +145,11 @@ export class UserController {
         .then((info) => console.log("Correo enviado:", info.messageId))
         .catch((err) => console.error("Error al enviar el correo:", err));
 
-      return res.status(201).json({message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
-      });
+      return res
+        .status(201)
+        .json({
+          message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
+        });
     } catch (error) {
       return res
         .status(500)
@@ -200,7 +203,9 @@ export class UserController {
       const validatedPassword = await compare(password, user.user_password);
 
       if (!validatedPassword) {
-        res.status(400).json({ message: "La contraseña actual es incorrecta." });
+        return res
+          .status(400)
+          .json({ message: "La contraseña actual es incorrecta." });
       }
 
       const hashedPassword = await hash(newPassword, 10);

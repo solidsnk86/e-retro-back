@@ -14,7 +14,7 @@ const GET_USER_BY_EMAIL =
 const GET_USER_BY_ID = "SELECT * FROM pern_user WHERE user_id = $1;";
 const UPDATE_USER =
   "UPDATE pern_user SET user_name = $2, user_email = $3, user_password = $4, user_update = $5, updated_at = $6, user_avatar = $7 WHERE user_id = $1 RETURNING *;";
-const UPDATE_USER_PASSWORD = "UPDATE pern_user SET user_password = $2 SET user_update = $3 WHERE user_id = $1;";
+const UPDATE_USER_PASSWORD = "UPDATE pern_user SET user_password = $2, user_update = $3 WHERE user_id = $1;";
 const DELETE_USER = "DELETE FROM pern_user WHERE user_id = $1 RETURNING *;";
 const GET_ALL_COMMETS = "SELECT * FROM comments;"
 const CREATE_COMMENT = "INSERT INTO comments(title, message) VALUES($1, $2) RETURNING *;"
