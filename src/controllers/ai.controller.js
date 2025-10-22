@@ -16,21 +16,27 @@ export class AiController {
       const generate = async () => {
         return await this.cohere.chat({
           model: "command-a-03-2025",
-          temperature: 0.3,
+          temperature: 0.4,
           messages: [
             {
               role: "system",
-              content:
-                "Eres un experto creando descripciones para una aplicación de tareas a partir de éste título: " +
-                title,
+              content: `
+              Eres un asistente creativo y experto en productividad. 
+              Tu tarea es generar una breve y atractiva descripción para una aplicación de gestión de tareas, 
+              basándote en el siguiente título: "${title}". 
+              La descripción debe ser natural, motivadora y adaptada al contexto de una app moderna de tareas.`,
             },
             {
               role: "user",
-              content: "Crea una breve descripción para mi tarea, no más de 300 caracteres...Puedes usar un solo emoticon.",
+              content: `
+              Crea una descripción de máximo 300 caracteres.
+              Debe sonar humana, inspiradora y clara. 
+              Puedes incluir un solo emoticon si aporta valor al texto.`,
             },
           ],
         });
       };
+      
 
       const [result] = await Promise.all([generate()]);
       const message = result.message.content[0].text
