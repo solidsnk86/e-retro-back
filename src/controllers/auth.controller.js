@@ -9,7 +9,7 @@ import {
   UPDATE_USER_PASSWORD,
 } from "./constants.js";
 import { createAccessToken } from "../lib/jwt.js";
-import md5 from "md5"
+import md5 from "md5";
 import { EmailController } from "./email.controller.js";
 
 export class UserController {
@@ -78,9 +78,7 @@ export class UserController {
         maxAge: this.cookieExpiration,
       });
 
-      return res
-        .status(200)
-        .json({ message: "Ingreso exitoso", user });
+      return res.status(200).json({ message: "Ingreso exitoso", user });
     } catch (error) {
       return res
         .status(500)
@@ -91,12 +89,16 @@ export class UserController {
   userLogout = async (req, res) => {
     try {
       const id = req.userId;
-      const result = await this.authDb.query(GET_USER_BY_ID, [id])
-      const user = this.getFirstRow(result)
+      const result = await this.authDb.query(GET_USER_BY_ID, [id]);
+      const user = this.getFirstRow(result);
       res.clearCookie("token");
-      return res.status(200).json({ message: "Sesión cerrada correctamente", user: user });
+      return res
+        .status(200)
+        .json({ message: "Sesión cerrada correctamente", user: user });
     } catch (error) {
-      return res.status(500).json({ message: "Error en logout: " + error.message });
+      return res
+        .status(500)
+        .json({ message: "Error en logout: " + error.message });
     }
   };
 
@@ -111,18 +113,20 @@ export class UserController {
       const userFound = this.getFirstRow(userExist);
 
       if (userFound) {
-        res.status(409).json({ message: `El correo ${email} ya está registrado.` });
+        res
+          .status(409)
+          .json({ message: `El correo ${email} ya está registrado.` });
         return;
       }
 
       const hashedPassword = await hash(password, 10);
-      const gravatar = `https://gravatar.com/avatar/${md5(email)}`
-      
+      const gravatar = `https://gravatar.com/avatar/${md5(email)}`;
+
       const result = await this.authDb.query(CREATE_USER, [
         name,
         email,
         hashedPassword,
-        gravatar
+        gravatar,
       ]);
 
       const newUser = this.getFirstRow(result);
@@ -134,16 +138,15 @@ export class UserController {
         secure: process.env.NODE_ENV === "production",
         maxAge: this.cookieExpiration,
       });
-      
+
       const emailController = new EmailController(name, email);
-        emailController
-      .sendMail()
-      .then(info => console.log("Correo enviado:", info.messageId))
-      .catch(err => console.error("Error al enviar el correo:", err.message));
+      await emailController.sendMail();
 
       return res
         .status(201)
-        .json({ message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.` });
+        .json({
+          message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
+        });
     } catch (error) {
       return res
         .status(500)
@@ -153,7 +156,7 @@ export class UserController {
 
   updateUser = async (req, res) => {
     try {
-      const id = req.userId
+      const id = req.userId;
       const { name, email, avatar } = req.body;
 
       if (!name || !email)
@@ -172,7 +175,7 @@ export class UserController {
         user.user_password,
         true,
         new Date().toISOString(),
-        avatar
+        avatar,
       ]);
 
       const updatedUser = this.getFirstRow(updated);
@@ -189,28 +192,31 @@ export class UserController {
 
   updatePassword = async (req, res) => {
     try {
-      const id = req.userId
-      const { password, newPassword } = req.body
-      const result = await this.authDb.query(GET_USER_BY_ID, [id])
-      const user = this.getFirstRow(result)
+      const id = req.userId;
+      const { password, newPassword } = req.body;
+      const result = await this.authDb.query(GET_USER_BY_ID, [id]);
+      const user = this.getFirstRow(result);
 
-      const validatedPassword = await compare(password, user.user_password)
+      const validatedPassword = await compare(password, user.user_password);
 
       if (!validatedPassword) {
-        res.status(400).json({ message: "La contraseña es incorrecta" })
+        res.status(400).json({ message: "La contraseña es incorrecta" });
       }
 
-      await this.authDb.query(UPDATE_USER_PASSWORD, [newPassword])
-      res.status(400).json({ message: "Contraseña actualizada" })
-      
+      await this.authDb.query(UPDATE_USER_PASSWORD, [newPassword]);
+      res.status(400).json({ message: "Contraseña actualizada" });
     } catch (error) {
-      res.status(500).json({ message: "Error al actualizar la contraseña: " + error.message  })
+      res
+        .status(500)
+        .json({
+          message: "Error al actualizar la contraseña: " + error.message,
+        });
     }
-  }
+  };
 
   deleteUser = async (req, res) => {
     try {
-      const id = req.userId
+      const id = req.userId;
       const result = await this.authDb.query(DELETE_USER, [id]);
       const deleted = this.getFirstRow(result);
 
@@ -218,8 +224,10 @@ export class UserController {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
-      res.clearCookie()
-      return res.status(200).json({ message: "Usuario eliminado", user: deleted });
+      res.clearCookie();
+      return res
+        .status(200)
+        .json({ message: "Usuario eliminado", user: deleted });
     } catch (error) {
       return res
         .status(500)
