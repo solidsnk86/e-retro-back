@@ -140,13 +140,13 @@ export class UserController {
       });
 
       const emailController = new EmailController(name, email);
-      await emailController.sendMail();
+      emailController
+        .sendMail()
+        .then((info) => console.log("Correo enviado:", info.messageId))
+        .catch((err) => console.error("Error al enviar el correo:", err));
 
-      return res
-        .status(201)
-        .json({
-          message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
-        });
+      return res.status(201).json({message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
+      });
     } catch (error) {
       return res
         .status(500)
@@ -203,14 +203,13 @@ export class UserController {
         res.status(400).json({ message: "La contraseña es incorrecta" });
       }
 
-      await this.authDb.query(UPDATE_USER_PASSWORD, [newPassword]);
+      const hashedPassword = await hash(newPassword, 10);
+      await this.authDb.query(UPDATE_USER_PASSWORD, [id, hashedPassword, true]);
       res.status(400).json({ message: "Contraseña actualizada" });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Error al actualizar la contraseña: " + error.message,
-        });
+      res.status(500).json({
+        message: "Error al actualizar la contraseña: " + error.message,
+      });
     }
   };
 
