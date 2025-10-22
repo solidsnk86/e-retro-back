@@ -21,12 +21,12 @@ export class AiController {
             {
               role: "system",
               content:
-                "Eres un experto creando descripciones hablando en primera persona para una aplicación de tareas a partir de éste título: " +
+                "Eres un experto creando descripciones para una aplicación de tareas a partir de éste título: " +
                 title,
             },
             {
               role: "user",
-              content: "Crea una breve descripción para mi tarea, no más de 300 caracteres... Puedes usar emoticones!",
+              content: "Crea una breve descripción para mi tarea, no más de 300 caracteres...Puedes usar emoticones",
             },
           ],
         });
