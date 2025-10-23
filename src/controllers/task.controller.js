@@ -129,7 +129,7 @@ class TasksController {
       const result = await this.taskDb.query(SET_TASK_DONE, [id, true, taskId]);
       const taskDone = this.getFirstRow(result);
 
-      res.status(200).json({ message: "Tarea completa!", task: taskDone });
+      res.status(200).json({ message: "Se ha marcado la tarea como hecha!", task: taskDone });
     } catch (error) {
       res.status(500).json({ message: "Error alactualizar el estado tarea " + error.message });
     }
@@ -141,7 +141,7 @@ class TasksController {
       const taskId = req.params.id
       const result = await this.taskDb.query(SET_TASK_DONE, [id, false, taskId])
       const taskUndone = this.getFirstRow(result)
-      res.status(200).json({ message: "Tarea incompleta!", task: taskUndone });
+      res.status(200).json({ message: "Se ha marcado la tarea como no hecha aún!", task: taskUndone });
     } catch (error) {
       res.status(500).json({ message: "Error al actualizar estado tarea " + error.message })
     }
