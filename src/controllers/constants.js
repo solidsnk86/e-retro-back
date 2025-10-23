@@ -6,6 +6,7 @@ const CREATE_TASK =
 const UPDATE_TASK =
   "UPDATE tareas SET titulo = $2, descripcion = $3, actualizado = $4, actualizado_el = $5 WHERE tarea_id = $1 RETURNING *;";
 const DELETE_TASK = "DELETE FROM tareas WHERE tarea_id = $1 AND user_id = $2 RETURNING *;";
+const SET_TASK_DONE = "UPDATE FROM tareas SET hecha = $2 WHERE user_id = $1;"
 const GET_ALL_USERS = "SELECT * FROM pern_user;";
 const CREATE_USER =
   "INSERT INTO pern_user (user_name, user_email, user_password, user_avatar) VALUES($1, $2, $3, $4) RETURNING *;";
@@ -34,5 +35,6 @@ export {
   UPDATE_USER_PASSWORD,
   DELETE_USER,
   GET_ALL_COMMETS,
-  CREATE_COMMENT
+  CREATE_COMMENT,
+  SET_TASK_DONE
 };
