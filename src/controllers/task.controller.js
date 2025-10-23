@@ -129,12 +129,6 @@ class TasksController {
       const result = await this.taskDb.query(SET_TASK_DONE, [id, true, taskId]);
       const taskDone = this.getFirstRow(result);
 
-      if (!taskDone) {
-        return res
-          .status(400)
-          .json({ message: "No se actualizó el estado de la tarea" });
-      }
-      
       res.status(200).json({ message: "Tarea completa!", task: taskDone });
     } catch (err) {
       res.status(500).json({ message: "Error en el servidor " + err.message });
