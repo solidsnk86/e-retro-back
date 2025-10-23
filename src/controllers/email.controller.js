@@ -23,7 +23,7 @@ export class EmailController {
 
       const html = emailTemplate({
         userName: this.userName,
-        url: "https://task-app-double-commit.vercel.app/",
+        url: "https://task-app-double-commit.vercel.app/login",
       });
 
       const info = await transporter.sendMail({
