@@ -28,12 +28,10 @@ class TasksController {
 
       res.status(200).json({ tareas: tasksResult });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Error al obtener las tareas: " + error.message,
-          info: "Compruebe si la DB está conectada",
-        });
+      res.status(500).json({
+        message: "Error al obtener las tareas: " + error.message,
+        info: "Compruebe si la DB está conectada",
+      });
     }
   };
 
@@ -50,12 +48,10 @@ class TasksController {
 
       res.status(200).json({ tarea: task });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Error al obtener las tareas: " + error.message,
-          info: "Compruebe si la DB está conectada",
-        });
+      res.status(500).json({
+        message: "Error al obtener las tareas: " + error.message,
+        info: "Compruebe si la DB está conectada",
+      });
     }
   };
 
@@ -86,12 +82,10 @@ class TasksController {
 
       res.status(200).json({ success: "Tarea creada", tarea: createdTask });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Error al obtener las tareas: " + error.message,
-          info: "Compruebe si la DB está conectada",
-        });
+      res.status(500).json({
+        message: "Error al obtener las tareas: " + error.message,
+        info: "Compruebe si la DB está conectada",
+      });
     }
   };
 
@@ -130,10 +124,17 @@ class TasksController {
 
   setTaskDone = async (req, res) => {
     try {
-      const id = req.userId
-      const result = await this.taskDb.query(SET_TASK_DONE, [id, true])
-      const taskDone = this.getFirstRow(result)
-      if (!taskDone) return res.status(400).json({ message: "No se actualizó el estado de la tarea" })
+      const id = req.userId;
+      const taskId = req.params.id;
+      const result = await this.taskDb.query(SET_TASK_DONE, [id, true, taskId]);
+      const taskDone = this.getFirstRow(result);
+
+      if (!taskDone) {
+        return res
+          .status(400)
+          .json({ message: "No se actualizó el estado de la tarea" });
+      }
+      
       res.status(200).json({ message: "Tarea completa!", task: taskDone });
     } catch (err) {
       res.status(500).json({ message: "Error en el servidor " + err.message });
