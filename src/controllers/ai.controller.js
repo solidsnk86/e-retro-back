@@ -1,5 +1,4 @@
 import { CohereClientV2 } from "cohere-ai";
-import { request } from "express";
 
 if (!process.env.NODE_ENV === "production") {
   process.loadEnvFile(".env");
@@ -9,7 +8,7 @@ export class AiController {
   static cohere = new CohereClientV2({
     token: process.env.COHERE_TRIAL_APIKEY,
   });
-  static init = async (req = request, res) => {
+  static init = async (req, res) => {
     try {
       const { title } = req.query;
 
