@@ -13,3 +13,4 @@ tasksRouter.post("/task", isAuth, tasksController.createTask);
 tasksRouter.put("/update/task/:id", isAuth, tasksController.updateTask);
 tasksRouter.delete("/delete/task/:id", isAuth, tasksController.deleteTask);
 tasksRouter.get("/task/done/:id", isAuth, tasksController.setTaskDone);
+tasksRouter.get("/task/undone/:id", isAuth, tasksController.setTaskUndone)

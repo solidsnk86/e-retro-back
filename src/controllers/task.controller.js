@@ -130,10 +130,22 @@ class TasksController {
       const taskDone = this.getFirstRow(result);
 
       res.status(200).json({ message: "Tarea completa!", task: taskDone });
-    } catch (err) {
-      res.status(500).json({ message: "Error en el servidor " + err.message });
+    } catch (error) {
+      res.status(500).json({ message: "Error alactualizar el estado tarea " + error.message });
     }
   };
+
+  setTaskUndone = async (req, res) => {
+    try {
+      const id = req.userId
+      const taskId = req.params.id
+      const result = await this.taskDb.query(SET_TASK_DONE, [id, false, taskId])
+      const taskUndone = this.getFirstRow(result)
+      res.status(200).json({ message: "Tarea incompleta!", task: taskUndone });
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar estado tarea " + error.message })
+    }
+  }
 
   deleteTask = async (req, res) => {
     try {
