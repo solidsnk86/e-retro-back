@@ -1,19 +1,14 @@
-import { CohereClientV2 } from "cohere-ai";
+export class AiController { 
+  constructor ({ model }) {
+    this.model = model
+  }
 
-if (!process.env.NODE_ENV === "production") {
-  process.loadEnvFile(".env");
-}
-
-export class AiController {
-  static cohere = new CohereClientV2({
-    token: process.env.COHERE_TRIAL_APIKEY,
-  });
-  static init = async (req, res) => {
+  init = async (req, res) => {
     try {
       const { title } = req.query;
 
       const generate = async () => {
-        return await this.cohere.chat({
+        return await this.model.chat({
           model: "command-a-03-2025",
           temperature: 0.3,
           messages: [
