@@ -24,9 +24,9 @@ class TasksController {
       if (tasksResult.length === 0)
         return res
           .status(200)
-          .json({ message: "No hay tareas en la DB", tareas: [] });
+          .json({ message: "No hay tareas en la DB", tasks: [] });
 
-      res.status(200).json({ tareas: tasksResult });
+      res.status(200).json({ tasks: tasksResult });
     } catch (error) {
       res.status(500).json({
         message: "Error al obtener las tareas: " + error.message,
@@ -46,7 +46,7 @@ class TasksController {
           .status(404)
           .json({ info: "No se encontró la tarea con el siguiente ID: " + id });
 
-      res.status(200).json({ tarea: task });
+      res.status(200).json({ task });
     } catch (error) {
       res.status(500).json({
         message: "Error al obtener las tareas: " + error.message,
@@ -113,7 +113,7 @@ class TasksController {
 
       res.status(200).json({
         success: "Se ha actualizado la tarea con éxito!",
-        tarea: updatedTask,
+        task: updatedTask,
       });
     } catch (error) {
       res.status(500).json({
@@ -161,7 +161,7 @@ class TasksController {
 
       res.status(200).json({
         success: "Se ha eliminado la tarea con éxito!",
-        tarea: deletedTask,
+        task: deletedTask,
       });
     } catch (error) {
       res
