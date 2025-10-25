@@ -91,7 +91,14 @@ export class UserController {
       const id = req.userId;
       const result = await this.authDb.query(GET_USER_BY_ID, [id]);
       const user = this.getFirstRow(result);
-      res.clearCookie("token");
+      
+      res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+      });
+
       return res
         .status(200)
         .json({ message: "Sesión cerrada correctamente", user: user });
