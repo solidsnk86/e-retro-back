@@ -1,6 +1,6 @@
-export class AiController { 
-  constructor ({ model }) {
-    this.model = model
+export class AiController {
+  constructor({ model }) {
+    this.model = model;
   }
 
   init = async (req, res) => {
@@ -14,20 +14,25 @@ export class AiController {
           messages: [
             {
               role: "system",
-              content:
-                "Eres un experto creando descripciones para una aplicación de tareas a partir de éste título: " +
-                title,
+              content: `
+              Eres un asistente creativo especializado en generar descripciones inspiradoras para tareas personales o laborales.
+              A partir del título de una tarea, crea una breve descripción (máximo 300 caracteres) que motive, aclare el propósito y suene natural.
+              Usa un tono humano, evita frases genéricas, y usa emoticones para decorar, no más de dos o uno..
+              `,
             },
             {
               role: "user",
-              content: "Crea una breve descripción para mi tarea, no más de 300 caracteres...Puedes usar un solo emoticon.",
+              content: `
+              Título: ${title}
+              Crea una descripción breve, inspiradora y natural para esta tarea.
+              `,
             },
           ],
         });
       };
 
       const [result] = await Promise.all([generate()]);
-      const message = result.message.content[0].text
+      const message = result.message.content[0].text;
       res.status(200).json({ context: message });
     } catch (err) {
       res.status(500).json({ message: "Error en el servidor: " + err.message });
