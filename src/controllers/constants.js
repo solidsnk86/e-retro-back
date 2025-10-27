@@ -6,7 +6,7 @@ const CREATE_TASK =
   "INSERT INTO tasks(title, description, user_id) VALUES($1, $2, $3) RETURNING *;";
 const UPDATE_TASK =
   "UPDATE tasks SET title = $2, description = $3, task_updated = $4, updated_at = $5 WHERE task_id = $1 RETURNING *;";
-const DELETE_TASK = "DELETE FROM tasks WHERE task_id = $1 AND user_id = $2 RETURNING *;";
+const DELETE_TASK = "DELETE FROM tasks WHERE task_id = $1 AND user_id = $2 RETURNING title;";
 const SET_TASK_DONE = "UPDATE tasks SET task_done = $2 WHERE task_id = $3 AND user_id = $1 RETURNING task_done;"
 // USER
 const GET_ALL_USERS = "SELECT * FROM pern_user;";
