@@ -91,15 +91,10 @@ class TasksController {
 
   updateTask = async (req, res) => {
     try {
-      const task = {
-        id: req.params.id,
-        title: req.body.titulo,
-        description: req.body.descripcion,
-      };
       const result = await this.taskDb.query(UPDATE_TASK, [
-        task.id,
-        task.title,
-        task.description,
+        req.params.id,
+        req.body.title,
+        req.body.description,
         true,
         new Date().toISOString(),
       ]);
