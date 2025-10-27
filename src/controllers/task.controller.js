@@ -108,7 +108,6 @@ class TasksController {
 
       res.status(200).json({
         success: "Se ha actualizado la tarea con éxito!",
-        task: updatedTask,
       });
     } catch (error) {
       res.status(500).json({
