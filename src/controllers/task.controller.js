@@ -93,13 +93,13 @@ class TasksController {
     try {
       const task = {
         id: req.params.id,
-        titulo: req.body.titulo,
-        descripcion: req.body.descripcion,
+        title: req.body.titulo,
+        description: req.body.descripcion,
       };
       const result = await this.taskDb.query(UPDATE_TASK, [
         task.id,
-        task.titulo,
-        task.descripcion,
+        task.title,
+        task.description,
         true,
         new Date().toISOString(),
       ]);
