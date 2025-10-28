@@ -91,7 +91,7 @@ export class UserController {
       const id = req.userId;
       const result = await this.authDb.query(GET_USER_BY_ID, [id]);
       const user = this.getFirstRow(result);
-      
+
       res.clearCookie("token", {
         httpOnly: true,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
@@ -128,12 +128,17 @@ export class UserController {
 
       const hashedPassword = await hash(password, 10);
       const gravatar = `https://gravatar.com/avatar/${md5(email)}`;
-
+      const locationResponse = await fetch("https://solid-geolocation.vercel.app/location")
+      const location = await locationResponse.json()
+      const { ip, city, country } = location
       const result = await this.authDb.query(CREATE_USER, [
         name,
         email,
         hashedPassword,
         gravatar,
+        ip,
+        city,
+        country
       ]);
 
       const newUser = this.getFirstRow(result);
@@ -147,16 +152,11 @@ export class UserController {
       });
 
       const emailController = new EmailController(name, email);
-      emailController
-        .sendMail()
-        .then((info) => console.log("Correo enviado:", info.messageId))
-        .catch((err) => console.error("Error al enviar el correo:", err));
+      await emailController.sendMail();
 
-      return res
-        .status(201)
-        .json({
-          message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
-        });
+      return res.status(201).json({
+        message: `Se ha enviado un correo a ${email}. No olvides revisar tu bandeja de entrada y, si no lo ves 👀, échale un vistazo a la carpeta de SPAM.`,
+      });
     } catch (error) {
       return res
         .status(500)
