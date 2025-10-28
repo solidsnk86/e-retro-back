@@ -111,7 +111,7 @@ export class UserController {
 
   createUser = async (req, res) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, ip, city, country } = req.body;
 
       if (!name || !email || !password)
         return res.status(400).json({ message: "Campos vacíos" });
@@ -128,9 +128,7 @@ export class UserController {
 
       const hashedPassword = await hash(password, 10);
       const gravatar = `https://gravatar.com/avatar/${md5(email)}`;
-      const locationResponse = await fetch("https://solid-geolocation.vercel.app/location")
-      const location = await locationResponse.json()
-      const { ip, city, country } = location
+      
       const result = await this.authDb.query(CREATE_USER, [
         name,
         email,
