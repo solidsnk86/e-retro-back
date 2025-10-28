@@ -1,15 +1,15 @@
 import { GET_ALL_PRODUCTS } from "./constants.js";
 
 export class ProductController {
+  getFirstRow = (result) => result?.rows?.[0] || result?.[0];
   constructor({ productsDB }) {
     this.productsDB = productsDB;
   }
 
   getAllProducts = async (req, res) => {
-    getFirstRow = (result) => result?.rows?.[0] || result?.[0];
     try {
       const result = await this.productsDB.query(GET_ALL_PRODUCTS);
-      const products = this.getAllProducts(result);
+      const products = this.getFirstRow(result);
       res.status(200).json(products);
     } catch (error) {
       res
