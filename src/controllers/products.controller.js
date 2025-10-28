@@ -1,4 +1,4 @@
-import { GET_ALL_PRODUCTS } from "./constants";
+import { GET_ALL_PRODUCTS } from "./constants.js";
 
 export class ProductController {
   constructor({ productsDB }) {

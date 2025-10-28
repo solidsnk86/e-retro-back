@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductController } from "../controllers/products.controller";
+import { ProductController } from "../controllers/products.controller.js";
 import { serverNeonDB } from "../../neon/neonDbConfig.js";
 
 export const productsRoute = Router()

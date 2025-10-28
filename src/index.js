@@ -1,8 +1,8 @@
 import express from "express";
-import { tasksRouter } from "./routes/tasks.route.js";
-import { authRouter } from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { tasksRouter } from "./routes/tasks.route.js";
+import { authRouter } from "./routes/auth.route.js";
 import { aiRoute } from "./routes/ai.route.js";
 import { productsRoute } from "./routes/products.route.js";
 
