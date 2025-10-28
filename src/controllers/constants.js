@@ -22,6 +22,8 @@ const DELETE_USER = "DELETE FROM pern_user WHERE user_id = $1 RETURNING *;";
 // COMMENTS
 const GET_ALL_COMMETS = "SELECT * FROM comments;"
 const CREATE_COMMENT = "INSERT INTO comments(title, message) VALUES($1, $2) RETURNING *;"
+// PRODUCTS
+const GET_ALL_PRODUCTS = "SELECT * FROM products;"
 
 export {
   GET_ALL_TASKS,
@@ -39,5 +41,6 @@ export {
   DELETE_USER,
   GET_ALL_COMMETS,
   CREATE_COMMENT,
-  SET_TASK_DONE
+  SET_TASK_DONE,
+  GET_ALL_PRODUCTS
 };
