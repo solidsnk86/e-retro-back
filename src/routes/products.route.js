@@ -10,13 +10,13 @@ const productController = new ProductController({ productsDB: serverNeonDB });
 productsRoute.get("/products", productController.getAllProducts);
 
 // Obtener un producto por ID
-productsRoute.get("/products/:id", productController.getProductById);
+productsRoute.get("/product/:id", productController.getProductById);
 
 // Crear un nuevo producto
 productsRoute.post("/products", productController.createProduct);
 
 // Actualizar un producto existente
-productsRoute.put("/products/:id", productController.updateProduct);
+productsRoute.put("/product/:id", productController.updateProduct);
 
 // Eliminar un producto
-productsRoute.delete("/products/:id", productController.deleteProduct);
+productsRoute.delete("/product/:id", productController.deleteProduct);
