@@ -111,7 +111,7 @@ export class UserController {
 
   createUser = async (req, res) => {
     try {
-      const { name, email, password, ip, city, country } = req.body;
+      const { name, email, password, ip, city, state, country } = req.body;
 
       if (!name || !email || !password)
         return res.status(400).json({ message: "Campos vacíos" });
@@ -136,6 +136,7 @@ export class UserController {
         gravatar,
         ip,
         city,
+        state,
         country
       ]);
 

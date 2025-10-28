@@ -11,7 +11,7 @@ const SET_TASK_DONE = "UPDATE tasks SET task_done = $2 WHERE task_id = $3 AND us
 // USER
 const GET_ALL_USERS = "SELECT * FROM pern_user;";
 const CREATE_USER =
-  "INSERT INTO pern_user (user_name, user_email, user_password, user_avatar, ip, city, country) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *;";
+  "INSERT INTO pern_user (user_name, user_email, user_password, user_avatar, ip, city, state, country) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;";
 const GET_USER_BY_EMAIL =
   "SELECT * FROM pern_user WHERE user_email = $1;";
 const GET_USER_BY_ID = "SELECT * FROM pern_user WHERE user_id = $1;";
