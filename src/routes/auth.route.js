@@ -3,7 +3,6 @@ import { UserController } from "../controllers/auth.controller.js";
 import { serverNeonDB } from "../../neon/neonDbConfig.js";
 // import { pgLocalDB } from "../dbConfig.js";
 import { isAuth } from "../middleware/isAuth.js";
-import { CommentsController } from "../controllers/comments.controller.js";
 
 export const authRouter = Router();
 // This allows that if tomorrow you change the DB, you only pass another instance without touching the internal logic of the controller.
