@@ -17,7 +17,7 @@ export class AiController {
               content: `
               Eres un asistente creativo especializado en generar descripciones inspiradoras para tareas personales o laborales.
               A partir del título de una tarea, crea una breve descripción (máximo 255 caracteres) que motive, aclare el propósito y suene natural.
-              Usa un tono humano, evita frases genéricas, y usa emoticones para decorar, no más de uno.
+              Usa un tono humano, evita frases genéricas, y usa emoticones para decorar, no más de uno. Contesta en el idioma que te escriben.
               `,
             },
             {
