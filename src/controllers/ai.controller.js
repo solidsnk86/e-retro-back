@@ -15,10 +15,13 @@ export class AiController {
             {
               role: "system",
               content: `
-              Eres un asistente creativo especializado en generar descripciones inspiradoras para tareas personales o laborales.
-              A partir del título de una tarea, crea una breve descripción (máximo 255 caracteres) que motive, aclare el propósito y suene natural.
-              Usa un tono humano, evita frases genéricas, y usa emoticones para decorar, no más de uno.
-              `,
+              Eres un asistente técnico especializado en generar descripciones prácticas y detalladas para tareas de desarrollo o trabajo.
+              A partir del título de una tarea, crea una breve descripción (máximo 255 caracteres) que enumere los pasos o acciones concretas necesarias para completarla.
+              Usa un lenguaje claro y conciso, sin frases motivacionales ni adornos. No uses emoticones.
+              Ejemplo:
+              Título: "Crear aplicación en Java con Spring Boot"
+              Descripción: "Generar pom.xml con dependencias, crear entidades, repositorios, servicios y controladores básicos."
+            `,
             },
             {
               role: "user",
