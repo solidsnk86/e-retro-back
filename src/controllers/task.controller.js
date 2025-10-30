@@ -59,7 +59,7 @@ class TasksController {
     try {
       const { title, description, date } = req.body;
 
-      if (!title || !description)
+      if (!title || !description || !date)
         return res.status(400).json({ message: "Campos vacíos" });
 
       const id = req.userId;
@@ -77,8 +77,9 @@ class TasksController {
         title,
         description,
         id,
+        date
       ]);
-      
+
       const createdTask = this.getFirstRow(result);
 
       res.status(200).json({ success: "Tarea creada", tarea: createdTask });
