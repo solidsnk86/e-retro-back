@@ -1,20 +1,14 @@
 import { Router } from "express";
-import { UserController } from "../controllers/auth.controller.js";
+import { AuthController } from "../controllers/auth.controller.js";
 import { serverNeonDB } from "../../neon/neonDbConfig.js";
 // import { pgLocalDB } from "../dbConfig.js";
 import { isAuth } from "../middleware/isAuth.js";
 
 export const authRouter = Router();
-// This allows that if tomorrow you change the DB, you only pass another instance without touching the internal logic of the controller.
-const userController = new UserController({ authDb: serverNeonDB }); // <- We inject the NeonDB server-less dependency
-//const userController = new UserController({ authDb: pgLocalDB }) //<- if we want to use the pgAdmin DB
+// Esto permite que si mañana cambias la DB, solo pases otra instancia sin tocar la lógica interna del controlador.
+const authController = new AuthController({ authDb: serverNeonDB }); // <- Inyectamos la dependencia de NeonDB server-less
+// const authController = new AuthController({ authDb: pgLocalDB }) <- si queremos usar la DB de pgAdmin
 
-authRouter.get("/users", userController.getAllUsers)
-authRouter.get("/user/:id", userController.getUserById)
-authRouter.post("/login", userController.userLogin);
-authRouter.post("/signup", userController.createUser);
-authRouter.put("/update/user", isAuth, userController.updateUser)
-authRouter.delete("/delete/user/:id", isAuth, userController.deleteUser)
-authRouter.get("/logout", isAuth, userController.userLogout)
-authRouter.get("/profile", isAuth, userController.userProfile)
-authRouter.patch("/update/user/password", isAuth, userController.updatePassword)
+authRouter.post("/login", authController.userLogin);
+authRouter.post("/signup", authController.createUser);
+authRouter.get("/logout", isAuth, authController.userLogout)

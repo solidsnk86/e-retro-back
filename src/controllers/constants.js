@@ -3,7 +3,7 @@ const GET_ALL_TASKS = "SELECT * FROM tasks WHERE user_id = $1;";
 const GET_TASK_BY_ID = "SELECT * FROM tasks WHERE task_id = $1;";
 const GET_TASK_BY_TITLE = "SELECT * FROM tasks WHERE title = $1 AND user_id = $2;"
 const CREATE_TASK =
-  "INSERT INTO tasks(title, description, user_id) VALUES($1, $2, $3) RETURNING *;";
+  "INSERT INTO tasks(title, description, user_id, created_at) VALUES($1, $2, $3, $4) RETURNING *;";
 const UPDATE_TASK =
   "UPDATE tasks SET title = $2, description = $3, task_updated = $4, updated_at = $5 WHERE task_id = $1 RETURNING *;";
 const DELETE_TASK = "DELETE FROM tasks WHERE task_id = $1 AND user_id = $2 RETURNING title;";
@@ -22,8 +22,6 @@ const DELETE_USER = "DELETE FROM pern_user WHERE user_id = $1 RETURNING *;";
 // COMMENTS
 const GET_ALL_COMMETS = "SELECT * FROM comments;"
 const CREATE_COMMENT = "INSERT INTO comments(title, message) VALUES($1, $2) RETURNING *;"
-// PRODUCTS
-const GET_ALL_PRODUCTS = "SELECT * FROM products;"
 
 export {
   GET_ALL_TASKS,
@@ -42,5 +40,4 @@ export {
   GET_ALL_COMMETS,
   CREATE_COMMENT,
   SET_TASK_DONE,
-  GET_ALL_PRODUCTS
 };

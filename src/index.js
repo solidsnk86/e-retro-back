@@ -1,10 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { tasksRouter } from "./routes/tasks.route.js";
-import { authRouter } from "./routes/auth.route.js";
-import { aiRoute } from "./routes/ai.route.js";
-import { productsRoute } from "./routes/products.route.js";
+import { appRouter } from "./routes/index.js";
 
 if (process.env.NODE_ENV !== "production") {
   process.loadEnvFile(".env");
@@ -17,11 +14,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 app.disable("x-powered-by");
-
-app.use("/api", tasksRouter);
-app.use("/api", authRouter);
-app.use("/api", productsRoute)
-app.use("/api", aiRoute)
+app.use(appRouter)
 
 export default app;
 

@@ -57,14 +57,14 @@ class TasksController {
 
   createTask = async (req, res) => {
     try {
-      const { titulo, descripcion } = req.body;
+      const { title, description, date } = req.body;
 
-      if (!titulo || !descripcion)
+      if (!title || !description)
         return res.status(400).json({ message: "Campos vacíos" });
 
       const id = req.userId;
       const existingTask = await this.taskDb.query(GET_TASK_BY_TITLE, [
-        titulo,
+        title,
         id,
       ]);
 
@@ -74,10 +74,11 @@ class TasksController {
           .json({ message: "La tarea con ese título ya existe" });
 
       const result = await this.taskDb.query(CREATE_TASK, [
-        titulo,
-        descripcion,
+        title,
+        description,
         id,
       ]);
+      
       const createdTask = this.getFirstRow(result);
 
       res.status(200).json({ success: "Tarea creada", tarea: createdTask });
