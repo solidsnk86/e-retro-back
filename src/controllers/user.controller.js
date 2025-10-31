@@ -6,6 +6,8 @@ export class UserController {
     this.userDb = userDb;
   }
 
+  getFirstRow = (result) => result?.rows?.[0] || result[0] 
+
   getAllUsers = async (req, res) => {
     try {
       const result = await this.userDb.query(GET_ALL_USERS);
@@ -120,6 +122,7 @@ export class UserController {
   userProfile = async (req, res) => {
     try {
       const { userId } = req;
+      
       const result = await this.userDb.query(GET_USER_BY_ID, [userId]);
       const user = this.getFirstRow(result);
 
