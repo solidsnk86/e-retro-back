@@ -7,7 +7,7 @@ export const userRouter = Router()
 const userController = new UserController({ userDb: serverNeonDB })
 
 userRouter.get("/users", userController.getAllUsers)
-userRouter.get("/user/profile", userController.userProfile)
+userRouter.get("/user/profile", isAuth, userController.userProfile)
 userRouter.get("/user/:id", userController.getUserById)
 userRouter.put("/update/user", isAuth, userController.updateUser)
 userRouter.patch("/update/user/password", isAuth, userController.updatePassword)

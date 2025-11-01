@@ -122,7 +122,7 @@ export class UserController {
   userProfile = async (req, res) => {
     try {
       const { userId } = req;
-      
+      console.log(req.userId)
       const result = await this.userDb.query(GET_USER_BY_ID, [userId]);
       const user = this.getFirstRow(result);
 
