@@ -8,8 +8,8 @@ export const tasksRouter = Router();
 const tasksController = new TasksController({ taskDb: serverNeonDB });
 
 tasksRouter.get("/tasks", isAuth, tasksController.getAllTasks);
-tasksRouter.get("/task/:id", isAuth, tasksController.getTaskById);
 tasksRouter.post("/task", isAuth, tasksController.createTask);
+tasksRouter.get("/task/:id", isAuth, tasksController.getTaskById);
 tasksRouter.put("/update/task/:id", isAuth, tasksController.updateTask);
 tasksRouter.delete("/delete/task/:id", isAuth, tasksController.deleteTask);
 tasksRouter.get("/task/done/:id", isAuth, tasksController.setTaskDone);

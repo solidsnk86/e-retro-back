@@ -6,7 +6,7 @@ import { aiRouter } from "./ai.route.js";
 
 export const appRouter = Router()
 
-appRouter.use("/api", tasksRouter)
-appRouter.use("/api", authRouter)
 appRouter.use("/api", userRouter)
+appRouter.use("/api", authRouter)
+appRouter.use("/api", tasksRouter)
 appRouter.use("/api/", aiRouter)

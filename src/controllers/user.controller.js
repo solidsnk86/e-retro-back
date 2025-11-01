@@ -1,4 +1,4 @@
-import { GET_ALL_USERS, GET_USER_BY_ID, GET_USER_BY_EMAIL, UPDATE_USER, UPDATE_USER_PASSWORD, DELETE_USER, } from "./constants.js";
+import { GET_ALL_USERS, GET_USER_BY_ID, UPDATE_USER, UPDATE_USER_PASSWORD, DELETE_USER, } from "./constants.js";
 
 
 export class UserController {

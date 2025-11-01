@@ -1,6 +1,7 @@
 import { compare, hash } from "bcrypt";
 import { CREATE_USER, GET_USER_BY_EMAIL, GET_USER_BY_ID } from "./constants.js";
 import { createAccessToken } from "../lib/jwt.js";
+import { EmailController } from "./email.controller.js";
 
 export class AuthController {
   cookieExpiration = 60 * 60 * 24 * 1000;
