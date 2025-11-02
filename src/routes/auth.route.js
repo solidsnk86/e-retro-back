@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controller.js";
-import { serverNeonDB } from "../../neon/neonDbConfig.js";
-// import { pgLocalDB } from "../dbConfig.js";
 import { isAuth } from "../middleware/isAuth.js";
+import { serverNeonDB } from "../db/neon/neonDbConfig.js";
+//import { pgLocalDB } from "../db/pg/pgConfig.js";
 
 export const authRouter = Router();
 // Esto permite que si mañana cambias la DB, solo pases otra instancia sin tocar la lógica interna del controlador.

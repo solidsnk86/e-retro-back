@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { TasksController } from "../controllers/task.controller.js";
-// import { pgLocalDB } from "../dbConfig.js";
 import { isAuth } from "../middleware/isAuth.js";
-import { serverNeonDB } from "../../neon/neonDbConfig.js";
+import { serverNeonDB } from "../db/neon/neonDbConfig.js";
+// import { pgLocalDB } from "../db/pg/pgConfig.js";
+
 
 export const tasksRouter = Router();
 const tasksController = new TasksController({ taskDb: serverNeonDB });

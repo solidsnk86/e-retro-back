@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserController } from "../controllers/user.controller.js";
-import { serverNeonDB } from "../../neon/neonDbConfig.js";
+import { serverNeonDB } from "../db/neon/neonDbConfig.js";
 import { isAuth } from "../middleware/isAuth.js";
 
 export const userRouter = Router()
